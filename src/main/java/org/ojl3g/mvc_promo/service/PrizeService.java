@@ -36,4 +36,8 @@ public class PrizeService {
         return false;
     }
 
+    public Prize findPrizeByCode(String promoCode){
+        return promoRepository.findPrizeByCode(promoCode);
+    }
+
 }

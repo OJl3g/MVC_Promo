@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Получение приза</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .container img {
+            max-height: 100px;
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Ваш приз: <span th:text="${prize.namePrize}"></span></h2>
+    <img th:src="${prize.getPicture()}">
+    <form action="/claim-prize" method="post">
+        <input type="hidden" name="prizeId" th:value="${prize.id}">
+        <button type="submit">Получить приз</button>
+    </form>
+</div>
+</body>
+</html>

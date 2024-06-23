@@ -83,19 +83,51 @@ public class PrizeController {
         return "winners";
     }
 
+    // Аннотация @PostMapping указывает, что этот метод будет обрабатывать POST-запросы по указанному URL ("/edit_status").
     @PostMapping("/edit_status")
     public ResponseEntity<String> editStatus(
+            // @RequestBody указывает, что этот параметр метода будет привязан к телу HTTP-запроса.
+            // Map<String, Long> payload представляет данные, отправленные в теле запроса в формате JSON.
             @RequestBody Map<String, Long> payload) {
+
+        // Извлечение значения по ключу "id" из карты (payload) и присвоение его переменной prizeId.
         Long prizeId = payload.get("id");
 
+        // Вызов метода changeStatus из prizeService с параметром prizeId.
+        // Этот метод изменяет статус приза и возвращает булево значение (true, если изменение успешно, false в противном случае).
         boolean updated = prizeService.changeStatus(prizeId);
 
+        // Проверка результата изменения статуса.
         if (updated) {
+            // Если статус был успешно изменен, возвращается HTTP-ответ с кодом 200 (OK) и сообщением "Status changed".
             return ResponseEntity.ok("Status changed");
         } else {
+            // Если изменение статуса не удалось, возвращается HTTP-ответ с кодом 500 (Internal Server Error) и сообщением "Error changing status".
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error changing status");
         }
     }
+
+    @GetMapping("/activate-promo-code")
+    public String activatePromoCode(Model model) {
+        return "promoCode";
+    }
+
+
+    @PostMapping("/activate-promo-code")
+    public String activatePromoCode(@RequestParam("promoCode") String promoCode, Model model) {
+        Prize prize = prizeService.findPrizeByCode(promoCode);
+
+        if (prize == null) {
+            model.addAttribute("errorMessage", "Код не найден");
+            return "promoCode";
+        } else {
+            model.addAttribute("prize", prize);
+            return "claimPrize";
+        }
+    }
+
+
+
 
 
 }
