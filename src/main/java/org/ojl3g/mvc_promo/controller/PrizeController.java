@@ -83,7 +83,7 @@ public class PrizeController {
         return "winners";
     }
 
-    // Аннотация @PostMapping указывает, что этот метод будет обрабатывать POST-запросы по указанному URL ("/edit_status").
+
     @PostMapping("/edit_status")
     public ResponseEntity<String> editStatus(
             // @RequestBody указывает, что этот параметр метода будет привязан к телу HTTP-запроса.
