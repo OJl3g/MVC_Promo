@@ -4,12 +4,14 @@ import org.ojl3g.mvc_promo.model.Prize;
 import org.ojl3g.mvc_promo.repository.PromoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PrizeService {
     PromoRepository promoRepository;
+    private List<Prize> prizes = new ArrayList<>();
 
     public PrizeService(PromoRepository promoRepository) {
         this.promoRepository = promoRepository;
@@ -40,4 +42,14 @@ public class PrizeService {
         return promoRepository.findPrizeByCode(promoCode);
     }
 
+
+//    public PrizeService() {  //need help to implement ->
+//        prizes.add(new Prize());
+//        prizes.add(new Prize());
+//        prizes.add(new Prize());
+//    }
+
+    public List<Prize> getAllPrizes() {
+        return prizes;
+    }
 }

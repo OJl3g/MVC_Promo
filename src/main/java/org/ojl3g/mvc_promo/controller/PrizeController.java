@@ -22,6 +22,7 @@ import java.util.Map;
 @Controller
 public class PrizeController {
     private PrizeService prizeService;
+    private Model model;
 
     public PrizeController(PrizeService prizeService) {
         this.prizeService = prizeService;
@@ -124,6 +125,23 @@ public class PrizeController {
             model.addAttribute("prize", prize);
             return "claimPrize";
         }
+    }
+
+    @GetMapping("/rule")
+    public String showRules() {
+        return "rules";
+    }
+
+    @GetMapping("/prizes")
+    public String showPrizes() {
+        List<Prize> prizes = prizeService.getAllPrize();
+        model.addAttribute("prizes", prizes);
+        return "prizes";
+    }
+
+    @GetMapping("/participate")
+    public String showHowToParticipate() {
+        return "participate";
     }
 
 

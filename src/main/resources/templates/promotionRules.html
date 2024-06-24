@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Правила акции</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f4f4f4;
+      height: 100vh;
+    }
+    nav {
+      margin-top: 10px;
+      width: 100%;
+      background-color: #333;
+      overflow: hidden;
+      text-align: center;
+    }
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      display: inline;
+    }
+    nav ul li a {
+      display: inline-block;
+      color: #e4e4e4;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    nav ul li a:hover {
+      background-color: #dcd8d8;
+      color: black;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .container h2 {
+      margin: 0 0 20px 0;
+    }
+    .container a {
+      text-decoration: none;
+      color: #4CAF50;
+      font-weight: bold;
+    }
+    .container a:hover {
+      color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <ul>
+    <li><a href="/participate">Как участвовать</a></li>
+    <li><a href="/prizes">Призы</a></li>
+    <li><a href="/rule">Правила акции</a></li>
+    <li><a href="/promo-code">Активировать промокод</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <h2>Правила акции</h2>
+  <p>Ознакомьтесь с правилами акции, нажав на ссылку ниже:</p>
+  <a href="/static/rules.pdf" target="_blank">Скачать правила акции (PDF)</a>
+</div>
+
+</body>
+</html>
