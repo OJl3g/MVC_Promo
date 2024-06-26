@@ -43,11 +43,7 @@ public class PrizeService {
     }
 
 
-//    public PrizeService() {  //need help to implement ->
-//        prizes.add(new Prize());
-//        prizes.add(new Prize());
-//        prizes.add(new Prize());
-//    }
+
 
     public List<Prize> getAllPrizes() {
         return prizes;

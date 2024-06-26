@@ -4,7 +4,14 @@ import org.ojl3g.mvc_promo.model.Prize;
 import org.ojl3g.mvc_promo.service.PrizeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +29,9 @@ import java.util.Map;
 @Controller
 public class PrizeController {
     private PrizeService prizeService;
-    private Model model;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     public PrizeController(PrizeService prizeService) {
         this.prizeService = prizeService;
@@ -32,13 +41,13 @@ public class PrizeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String indexGet() {
-        return "index";
+        return "users/index";
     }
 
 
     @RequestMapping(value = "/add_prize", method = RequestMethod.GET)
     public String addPrize() {
-        return "addPrize";
+        return "admins/addPrize";
     }
 
     @RequestMapping(value = "/add_prize", method = RequestMethod.POST)
@@ -53,7 +62,7 @@ public class PrizeController {
             linkImg = saveImgToDirectory(prizeImage);
         } catch (IOException e) {
             log.error(e.getMessage());
-            return "redirect:/";
+            return "admins/addPrize";
         }
 
         for (String code : splitCodes) {
@@ -62,7 +71,7 @@ public class PrizeController {
         }
 
 
-        return "addPrize";
+        return "admins/addPrize";
     }
 
     public static String[] codeToArray(String promoCode) {
@@ -81,7 +90,7 @@ public class PrizeController {
     public String winnersGet(Model model) {
         List<Prize> listPrize = prizeService.getAllPrize();
         model.addAttribute("listPrize", listPrize);
-        return "winners";
+        return "admins/winners";
     }
 
 
@@ -110,7 +119,7 @@ public class PrizeController {
 
     @GetMapping("/activate-promo-code")
     public String activatePromoCode(Model model) {
-        return "promoCode";
+        return "/users/promoCode";
     }
 
 
@@ -120,32 +129,44 @@ public class PrizeController {
 
         if (prize == null) {
             model.addAttribute("errorMessage", "Код не найден");
-            return "promoCode";
+            return "users/promoCode";
         } else {
             model.addAttribute("prize", prize);
-            return "claimPrize";
+            return "users/claimPrize";
         }
     }
 
     @GetMapping("/rule")
     public String showRules() {
-        return "rules";
+        return "users/promotionRules";
+    }
+
+
+    //обработка открытия файла
+    @GetMapping("/promotion-rules")
+    public ResponseEntity<Resource> openPdf() {
+        Resource resource = resourceLoader.getResource("classpath:/static/promotionsRules.pdf");
+        if (!resource.exists()) {
+            resource = new FileSystemResource("C:\\Users\\Олег\\IdeaProjects\\MVC_Promo\\src\\main\\resources\\static\\img\\promotionsRules.pdf");
+        }
+        //возврат ответа в body которого pdf файл
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=promotionsRules.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(resource);
     }
 
     @GetMapping("/prizes")
-    public String showPrizes() {
+    public String showPrizes(Model model) {
         List<Prize> prizes = prizeService.getAllPrize();
         model.addAttribute("prizes", prizes);
-        return "prizes";
+        return "users/listPrizes";
     }
 
     @GetMapping("/participate")
     public String showHowToParticipate() {
         return "participate";
     }
-
-
-
 
 
 }
